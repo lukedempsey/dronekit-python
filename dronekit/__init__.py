@@ -2975,11 +2975,12 @@ class CommandSequence(object):
         """
         return self._vehicle.wait_ready('commands', **kwargs)
 
-    def clear(self):
+    def clear(self, reset_home=True):
         '''
         Clear the command list.
 
         This command will be sent to the vehicle only after you call :py:func:`upload() <Vehicle.commands.upload>`.
+        :param bool reset_home: Add current home waypoint again
         '''
 
         # Add home point again.
@@ -2990,7 +2991,7 @@ class CommandSequence(object):
         except:
             pass
         self._vehicle._wploader.clear()
-        if home:
+        if reset_home and home:
             self._vehicle._wploader.add(home, comment='Added by DroneKit')
         self._vehicle._wpts_dirty = True
 
